@@ -1,0 +1,51 @@
+---
+- name: K8s cluster Initial Setup
+  hosts: k8s_cluster
+  become: true
+
+  tasks:
+    - name: Upgrade apt to latest packages
+      ansible.builtin.apt:
+        name: aptitude
+        update_cache: true
+        state: latest
+        cache_valid_time: 3600
+
+    - name: Install system packages
+      ansible.builtin.apt:
+        name:
+          - ufw
+          - curl
+          - git
+          - ca-certificates
+          - apt-transport-https
+        state: present
+
+    - name: Check if kubectl is present
+      ansible.builtin.stat:
+        path: /usr/local/bin/kubectl
+      register: kubectl_stat
+
+    - name: Download kubectl binary if it does not exist
+      ansible.builtin.command:
+        cmd: curl -L -s -o /tmp/kubectl https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl
+      args:
+        creates: /tmp/kubectl
+
+    - name: Install kubectl binary to /usr/local/bin
+      ansible.builtin.copy:
+        src: /tmp/kubectl
+        dest: /usr/local/bin/kubectl
+        owner: root
+        group: root
+        mode: "0755"
+        remote_src: true
+
+    - name: Verify kubectl installation
+      ansible.builtin.command:
+        cmd: kubectl version --client
+      register: kubectl_version_output
+
+    - name: Print kubectl version
+      ansible.builtin.debug:
+        msg: "{{ kubectl_version_output.stdout }}"
