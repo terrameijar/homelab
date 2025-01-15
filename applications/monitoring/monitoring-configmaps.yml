@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: monitoring-config
+data:
+  prometheus.yml: |-
+    global:
+      scrape_interval: 30s
+
+    scrape_configs:
+      - job_name: 'Static: node-exporter'
+        static_configs:
+          - targets:
+            - '10.109.223.205:9100'
+
+      - job_name: 'node-exporter'
+        kubernetes_sd_configs:
+          - role: endpoints
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_endpoints_name]
+            regex: 'node-exporter'
+            action: keep
+  
+  datasource.yml: |-
+    apiVersion: 1
+
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://127.0.0.1:9090
