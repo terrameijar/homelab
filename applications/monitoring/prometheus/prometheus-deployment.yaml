@@ -2,17 +2,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cluster-monitor
+  name: prometheus
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cluster-monitor
+      app: prometheus
   template:
     metadata:
       labels:
-        app: cluster-monitor
-
+        app: prometheus
     spec:
       containers:
         - name: prometheus
@@ -22,33 +22,17 @@ spec:
             - containerPort: 9090
               name: prometheus-port
           volumeMounts:
-            - name: config-vol
+            - name: prometheus-config
               mountPath: /etc/prometheus/prometheus.yml
               subPath: prometheus.yml
             - name: prometheus-data
               mountPath: /prometheus
           imagePullPolicy: Always
-        
-        - name: grafana
-          image: grafana/grafana
-          ports:
-            - containerPort: 3000
-              name: grafana-port
-          volumeMounts:
-            - name: config-vol
-              mountPath: /etc/grafana/provisioning/datasources/datasource.yml
-              subPath: datasource.yml
-            - name: grafana-data
-              mountPath: /var/lib/grafana
-
-
+      
       volumes:
-        - name: config-vol
+        - name: prometheus-config
           configMap:
-            name: monitoring-config
+            name: prometheus-config
         - name: prometheus-data
           persistentVolumeClaim:
             claimName: prom-claim
-        - name: grafana-data
-          persistentVolumeClaim:
-            claimName: graf-claim
