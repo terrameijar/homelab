@@ -2,7 +2,7 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   name: ip-addresspool-tf-cluster
-  namespace: default
+  namespace: metallb-system
 spec:
   addresses:
     # Availabel IP pool- 10.0.0.7-10.0.0.9
@@ -13,7 +13,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   name: l2-advertisement
-  namespace: default
+  namespace: metallb-system
 spec:
   ipAddressPools:
   - ip-addresspool-tf-cluster
