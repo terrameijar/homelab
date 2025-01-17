@@ -1,9 +1,8 @@
 ## HomeLab
 
-This repository is the source of truth for my Kubernetes Homelab.
+This repository is the source of truth for my Kubernetes Homelab. I use the configuration files here to manage infrastructure such as the kubernetes clusters and the applications I host in them.
 
-## TODO:
+## Contents
 
-1. Infrastructure set up
-2. Kubernetes Clusters
-3. Self Hosted Applications
+1. `applications` -- Containerised workloads running in Kubernetes
+1. `infrastructure` -- Code and config files to set up the homelab infrastructure. Includes ansible playbooks.

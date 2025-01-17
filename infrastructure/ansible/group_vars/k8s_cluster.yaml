@@ -1,0 +1,2 @@
+kubernetes_leader_ip: "{{ lookup('env', 'KUBERNETES_LEADER_NODE') }}"
+kubernetes_worker1_ip: "{{ lookup('env', 'KUBERNETES_WORKER1_NODE') }}"

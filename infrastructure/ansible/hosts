@@ -1,0 +1,13 @@
+[k8s_cluster]
+{{ kubernetes_leader_ip }}
+
+[kubernetes_leader]
+{{ kubernetes_leader_ip }}
+
+[kubernetes_worker1]
+{{ kubernetes_worker1_ip }}
+
+[k8s_cluster:vars]
+ansible_user=optimus
+ansible_user_group=prime
+kubectl_version=v1.32.0
