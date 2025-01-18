@@ -1680,7 +1680,7 @@ metadata:
   labels:
     app: metallb
     component: controller
-  name: controller
+  name: metallb-controller
   namespace: metallb-system
 spec:
   revisionHistoryLimit: 3
