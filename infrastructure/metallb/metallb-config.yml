@@ -5,8 +5,8 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-    # Availabel IP pool- 10.0.0.7-10.0.0.9
-    - 10.0.0.8
+    # Available IP pool- 10.0.0.7-10.0.0.9
+    - 10.0.0.8/32
 
 ---
 apiVersion: metallb.io/v1beta1
